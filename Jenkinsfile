@@ -1,6 +1,9 @@
 pipeline {
   agent { label 'jenkins-node' }
-
+  parameters {
+    String(name: 'TOMCAT' defaultValue: '3.34.141.54' description: 'tomcat server ip')
+    String(name: 'WORKDIR' defaultValue: '/var/lib/jenkins/workspace/test' description: 'working directory')
+  }
   stages {
     stage('Checkout') {
       steps {
@@ -16,7 +19,7 @@ pipeline {
 
     stage('Deploy to Tomcat') {
       steps {
-        sh 'scp /var/lib/jenkins/workspace/test/target/hello-world.war root@3.34.141.54:/var/lib/tomcat9/webapps'
+        sh 'scp ${params.WORKDIR}/target/hello-world.war root@${params.TOMCAT}:/var/lib/tomcat9/webapps'
       }
     }
   }
