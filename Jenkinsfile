@@ -1,8 +1,13 @@
 pipeline {
   agent { label 'jenkins-node' }
+
+  triggers {
+  pollSCM '* * * * *'
+  }
+  
   parameters {
-    string(name: 'TOMCAT', defaultValue: '3.34.141.54', description: 'tomcat server ip')
-    string(name: 'WORKDIR', defaultValue: '/var/lib/jenkins/workspace/test', description: 'working directory')
+  string defaultValue: '3.34.141.54', name: 'TOMCAT_IP'
+  string defaultValue: '/var/lib/tomcat9/webapps', name: 'TOMCAT_WEBAPP_DIR'
   }
   stages {
     stage('Checkout') {
@@ -19,7 +24,7 @@ pipeline {
 
     stage('Deploy to Tomcat') {
       steps {
-        sh 'scp ${params.WORKDIR}/target/hello-world.war root@${params.TOMCAT}:/var/lib/tomcat9/webapps'
+        sh 'scp ${env.WORKSPACE}/target/hello-world.war root@${params.TOMCAT_IP}:${params.TOMCAT_WEBAPP_DIR}'
       }
     }
   }
