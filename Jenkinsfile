@@ -1,8 +1,8 @@
 pipeline {
   agent { label 'jenkins-node' }
   parameters {
-    String(name: 'TOMCAT' defaultValue: '3.34.141.54' description: 'tomcat server ip')
-    String(name: 'WORKDIR' defaultValue: '/var/lib/jenkins/workspace/test' description: 'working directory')
+    String(name: 'TOMCAT', defaultValue: '3.34.141.54', description: 'tomcat server ip')
+    String(name: 'WORKDIR', defaultValue: '/var/lib/jenkins/workspace/test', description: 'working directory')
   }
   stages {
     stage('Checkout') {
