@@ -16,7 +16,7 @@ pipeline {
 
     stage('Deploy to Tomcat') {
       steps {
-        sh 'scp /var/lib/jenkins/workspace/maven_pipeline/target/hello-world.war root@10.0.0.155:/var/lib/tomcat9/webapps'
+        sh 'scp /var/lib/jenkins/workspace/test/target/hello-world.war root@10.0.0.155:/var/lib/tomcat9/webapps'
       }
     }
   }
