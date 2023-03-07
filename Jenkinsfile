@@ -24,7 +24,7 @@ pipeline {
 
     stage('Deploy to Tomcat') {
       steps {
-        sh 'scp ${env.WORKSPACE}/target/hello-world.war root@${params.TOMCAT_IP}:${params.TOMCAT_WEBAPP_DIR}'
+        sh "scp ${env.WORKSPACE}/target/hello-world.war root@${params.TOMCAT_IP}:${params.TOMCAT_WEBAPP_DIR}"
       }
     }
   }
