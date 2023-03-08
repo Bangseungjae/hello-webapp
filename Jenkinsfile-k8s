@@ -77,13 +77,12 @@ spec:
       steps {
         container('maven'){
         git branch: 'main', url: 'https://github.com/Bangseungjae/hello-kube.git'
-        sh "sed -i '' 's/image:.*/image: ${params.IMAGE_REGISTRY_ACCOUNT}\\/${params.IMAGE_NAME}:${env.BUILD_NUMBER}/g' deployment.yaml"
+        sh "sed -i '' 's/image:.*/image: ${params.IMAGE_REGISTRY_ACCOUNT}\\/${params.IMAGE_NAME}:${BUILD_NUMBER}/g' deployment.yaml"
         sh 'git add .'
-        sh 'git commit -m "update version"'
+        sh "git commit -m "update version ${BUILD_NUMBER}""
         sh 'git push'
         }
     }
-
   }
 }
 }
