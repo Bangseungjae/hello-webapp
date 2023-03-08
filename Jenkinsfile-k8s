@@ -24,6 +24,10 @@ spec:
       items:
       - key: .dockerconfigjson
         path: config.json
+  - name: git
+    image: bitnami/git:2.39.2-debian-11-r8
+    command: ['sleep']
+    args: ['infinity']
 '''
     }
   }
@@ -75,7 +79,7 @@ spec:
 
     stage('Update Kubernetes Manifests') {
       steps {
-        container('maven'){
+        container('git'){
         git branch: 'main', url: 'https://github.com/Bangseungjae/hello-kube.git'
         // sh "sed -i \"s/image:.*/image: ${IMAGE_REGISTRY_ACCOUNT}\\/${IMAGE_NAME}:${BUILD_NUMBER}/g\" deployment.yaml"
         // echo "${BUILD_NUMBER}"
