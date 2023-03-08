@@ -80,16 +80,15 @@ spec:
     stage('Update Kubernetes Manifests') {
       steps {
         container('git'){
-        
-        // sh "sed -i \"s/image:.*/image: ${IMAGE_REGISTRY_ACCOUNT}\\/${IMAGE_NAME}:${BUILD_NUMBER}/g\" deployment.yaml"
-        // echo "${BUILD_NUMBER}"
-        // sh 'git add .'
-        // sh 'git config --global user.name Bangseungjae'
-        // sh 'git config --global user.email tmdwo5825@naver.com'
-        // sh "git commit -m \"Jenkins Build Number - ${BUILD_NUMBER}\""
+        git branch: 'main', url: 'https://github.com/Bangseungjae/hello-kube.git'
+        sh "sed -i \"s/image:.*/image: ${IMAGE_REGISTRY_ACCOUNT}\\/${IMAGE_NAME}:${BUILD_NUMBER}/g\" deployment.yaml"
+        echo "${BUILD_NUMBER}"
+        sh 'git add .'
+        sh 'git config --global user.name Bangseungjae'
+        sh 'git config --global user.email tmdwo5825@naver.com'
+        sh "git commit -m \"Jenkins Build Number - ${BUILD_NUMBER}\""
         withCredentials([gitUsernamePassword(credentialsId: 'github-token', gitToolName: 'Default')]) {
-          // sh 'git push origin main'
-          git branch: 'main', url: 'https://github.com/Bangseungjae/hello-kube.git'
+          sh 'git push origin main'          
         }
       }
     }
