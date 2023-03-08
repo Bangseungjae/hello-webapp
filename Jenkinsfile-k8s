@@ -10,6 +10,20 @@ spec:
     image: maven:3-openjdk-8
     command: ['sleep']
     args: ['infinity']
+  - name: kanico
+    image: gcr.io/kaniko-project/executor:debug
+    command: ['sleep']
+    args: ['infinity']
+    volumeMounts:
+        - name: registry-credentials
+          mountPath: /kanico/.docker
+  volmes:
+  - name: registry-credentials
+    secret: 
+      secretName: regcred
+      items:
+      - key: .dockerconfigjson
+        path: config.json
 '''
     }
   }
@@ -20,7 +34,7 @@ spec:
 
   parameters {
     string name: 'IMAGE_NAME', defaultValue: 'hello-world'
-    string name: 'IMAGE_REGISTRY_ACCOUNT', defaultValue: 'c1t1d0s7'
+    string name: 'IMAGE_REGISTRY_ACCOUNT', defaultValue: 'bsj1209'
   }
 
   stages {
@@ -44,6 +58,17 @@ spec:
       steps {
         container('maven') {
           sh 'mvn test'
+        }
+      }
+    }
+
+    stage('Build & Tag Docker Image') {
+      steps {
+        container('kanico') {
+          sh "executor --dockerfile=Dockerfile \
+          --context=dir://${env.WORKSPACE} \
+          --destination=${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:${env.BUILD_NUMBER} \
+          --destination=${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:latest"
         }
       }
     }
