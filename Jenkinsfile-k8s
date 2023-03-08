@@ -85,6 +85,8 @@ spec:
         sh "sed -i \"s/image:.*/image: ${IMAGE_REGISTRY_ACCOUNT}\\/${IMAGE_NAME}:${BUILD_NUMBER}/g\" deployment.yaml"
         echo "${BUILD_NUMBER}"
         sh 'ls -al'
+        sh 'rm -rf target'
+        sh 'ls -al'
         sh 'git add .'
         sh 'git config --global user.name Bangseungjae'
         sh 'git config --global user.email tmdwo5825@naver.com'
