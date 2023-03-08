@@ -66,9 +66,9 @@ spec:
       steps {
         container('kanico') {
           sh "executor --dockerfile=Dockerfile \
-          --context=dir://${env.WORKSPACE} \
-          --destination=${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:${env.BUILD_NUMBER} \
-          --destination=${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:latest"
+            --context=dir://${env.WORKSPACE} \
+            --destination=${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:${env.BUILD_NUMBER} \
+            --destination=${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}:latest"
         }
       }
     }
