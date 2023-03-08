@@ -80,6 +80,7 @@ spec:
     stage('Update Kubernetes Manifests') {
       steps {
         container('git'){
+        echo 'start Manifests'
         git branch: 'main', url: 'https://github.com/Bangseungjae/hello-kube.git'
         sh "sed -i \"s/image:.*/image: ${IMAGE_REGISTRY_ACCOUNT}\\/${IMAGE_NAME}:${BUILD_NUMBER}/g\" deployment.yaml"
         echo "${BUILD_NUMBER}"
