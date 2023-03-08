@@ -73,5 +73,15 @@ spec:
       }
     }
 
+    stage('Update Kubernetes Manifests') {
+      steps {
+        container('maven')
+        git branch: 'main', url: 'https://github.com/Bangseungjae/hello-kube.git'
+        sh "sed -i '' 's/image:.*/image: bsj1209\/hello-world:4/g' deployment.yaml"
+        sh 'git add .'
+        sh 'git commit -m "update version"'
+        sh 'git push'
+    }
+
   }
 }
