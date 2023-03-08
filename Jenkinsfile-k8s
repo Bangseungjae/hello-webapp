@@ -1,0 +1,52 @@
+pipeline {
+  agent {
+    kubernetes {
+yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3-openjdk-8
+    command: ['sleep']
+    args: ['infinity']
+'''
+    }
+  }
+
+  triggers {
+    pollSCM '* * * * *'
+  }
+
+  parameters {
+    string name: 'IMAGE_NAME', defaultValue: 'hello-world'
+    string name: 'IMAGE_REGISTRY_ACCOUNT', defaultValue: 'c1t1d0s7'
+  }
+
+  stages {
+    stage('SCM Checkout') {
+      steps {
+        container('maven') {
+          git branch: 'main', url: 'https://github.com/c1t1d0s7/hello-webapp.git'
+        }
+      }
+    }
+
+    stage('Build Maven Project') {
+      steps {
+        container('maven') {
+          sh 'mvn clean package -DskipTests=true'
+        }
+      }
+    }
+
+    stage('Test Maven Project') {
+      steps {
+        container('maven') {
+          sh 'mvn test'
+        }
+      }
+    }
+
+  }
+}
