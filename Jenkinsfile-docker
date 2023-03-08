@@ -27,7 +27,7 @@ pipeline {
       }
     }
 
-        stage('Test Maven Project') {
+    stage('Test Maven Project') {
       agent {
         docker { image 'maven:3-openjdk-8'}
       }
@@ -43,11 +43,13 @@ pipeline {
       }
     }
     stage('Tagging Docker Image') {
+      agent any
       steps {
         sh "docker image tag ${params.IMAGE_NAME} ${params.IMAGE_REGISTRY_ACCOUNT}/${params.IMAGE_NAME}"
       }
     }
     stage('Publish Docker Image') {
+      agent any
       steps {
         // This step should not normally be used in your script. Consult the inline help for details.
         withDockerRegistry(credentialsId: 'docker-credentials', url: 'https://index.docker.io/v1/') {
